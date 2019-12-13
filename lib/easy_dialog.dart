@@ -18,23 +18,23 @@ class EasyDialog {
   EdgeInsets descriptionPadding;
   CrossAxisAlignment contentListAlignment;
 
-  EasyDialog({
-    Key key,
-    this.topImage,
-    this.title,
-    this.description,
-    this.closeButton = true,
-    this.height = 140,
-    this.width = 300,
-    this.cornerRadius = 8.0,
-    this.fogOpacity = 0.37,
-    this.cardColor = const Color.fromRGBO(240, 240, 240, 1.0),
-    this.contentList,
-    this.contentPadding,
-    this.descriptionPadding = const EdgeInsets.all(0.0),
-    this.titlePadding = const EdgeInsets.only(bottom: 12.0),
-    this.contentListAlignment
-  }) : assert(fogOpacity >= 0 && fogOpacity <= 1.0);
+  EasyDialog(
+      {Key key,
+      this.topImage,
+      this.title,
+      this.description,
+      this.closeButton = true,
+      this.height = 140,
+      this.width = 300,
+      this.cornerRadius = 8.0,
+      this.fogOpacity = 0.37,
+      this.cardColor = const Color.fromRGBO(240, 240, 240, 1.0),
+      this.contentList,
+      this.contentPadding,
+      this.descriptionPadding = const EdgeInsets.all(0.0),
+      this.titlePadding = const EdgeInsets.only(bottom: 12.0),
+      this.contentListAlignment})
+      : assert(fogOpacity >= 0 && fogOpacity <= 1.0);
 
   insertByIndex(EdgeInsets padding, Widget child, int index) {
     contentList.insert(
@@ -46,7 +46,8 @@ class EasyDialog {
         ));
   }
 
-  show(BuildContext context) {
+  // Added function argument for close button callback
+  show(BuildContext context, Function onDialogClose) {
     ClipRRect image;
     if (topImage != null) {
       image = ClipRRect(
@@ -72,8 +73,9 @@ class EasyDialog {
     if (contentPadding == null) {
       contentPadding = EdgeInsets.fromLTRB(17.5, 12.0, 17.5, 13.0);
     }
-    if(contentListAlignment==null) {
-      contentListAlignment = CrossAxisAlignment.center; //defaults to center as you previously implemented
+    if (contentListAlignment == null) {
+      contentListAlignment = CrossAxisAlignment
+          .center; //defaults to center as you previously implemented
     }
     return showDialog(
       context: context,
@@ -110,7 +112,7 @@ class EasyDialog {
                                   height: height,
                                   padding: contentPadding,
                                   child: Column(
-                                    crossAxisAlignment:contentListAlignment,
+                                    crossAxisAlignment: contentListAlignment,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: contentList,
                                   ),
@@ -123,6 +125,8 @@ class EasyDialog {
                                   alignment: Alignment.topRight,
                                   child: FloatingActionButton(
                                     onPressed: () {
+                                      // On dialog closed, execute the function callback
+                                      onDialogClose();
                                       Navigator.pop(context);
                                     },
                                     child: Icon(
