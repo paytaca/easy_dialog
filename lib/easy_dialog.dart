@@ -79,7 +79,7 @@ class EasyDialog {
     }
     return showDialog(
       context: context,
-      barrierDismissible: true,
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return Material(
           color: Colors.transparent,
